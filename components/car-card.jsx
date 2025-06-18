@@ -1,10 +1,10 @@
+// File: components/car-card.jsx
 "use client";
 
-// import { toggleSavedCar } from "@/actions/car-listing";
+import { toggleSavedCar } from "@/actions/car-listing";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-// import useFetch from "@/hooks/use-fetch";
 import useFetch from "@/hooks/use-fetch";
 import { useAuth } from "@clerk/nextjs";
 import { Car as CarIcon, Heart, Loader2 } from "lucide-react";
@@ -18,7 +18,6 @@ export const CarCard = ({ car }) => {
   const router = useRouter();
   const [isSaved, setIsSaved] = useState(car.wishlisted);
 
-  // Use the useFetch hook
   const {
     loading: isToggling,
     fn: toggleSavedCarFn,
@@ -26,7 +25,6 @@ export const CarCard = ({ car }) => {
     error: toggleError,
   } = useFetch(toggleSavedCar);
 
-  // Handle toggle result with useEffect
   useEffect(() => {
     if (toggleResult?.success && toggleResult.saved !== isSaved) {
       setIsSaved(toggleResult.saved);
@@ -34,14 +32,12 @@ export const CarCard = ({ car }) => {
     }
   }, [toggleResult, isSaved]);
 
-  // Handle errors with useEffect
   useEffect(() => {
     if (toggleError) {
       toast.error("Failed to update favorites");
     }
   }, [toggleError]);
 
-  // Handle save/unsave car
   const handleToggleSave = async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -54,7 +50,6 @@ export const CarCard = ({ car }) => {
 
     if (isToggling) return;
 
-    // Call the toggleSavedCar function using our useFetch hook
     await toggleSavedCarFn(car.id);
   };
 

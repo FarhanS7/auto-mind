@@ -1,15 +1,19 @@
 // import { getFeaturedCars } from "@/actions/home";
 import { CarCard } from "@/components/car-card";
 import { HomeSearch } from "@/components/home-search";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { carMakes, featuredCars } from "@/lib/data";
+import { bodyTypes, carMakes, faqItems, featuredCars } from "@/lib/data";
 import { SignedOut } from "@clerk/nextjs";
 import { Calendar, Car, ChevronRight, Shield } from "lucide-react";
 import Image from "next/image";
-// import { CarCard } from "@/components/car-card";
 
 import Link from "next/link";
-// import { bodyTypes, carMakes, faqItems } from "@/lib/data";
 
 export default async function Home() {
   // const featuredCars = await getFeaturedCars();
@@ -138,7 +142,7 @@ export default async function Home() {
               </Link>
             </Button>
           </div>
-          {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {bodyTypes.map((type) => (
               <Link
                 key={type.name}
@@ -162,12 +166,12 @@ export default async function Home() {
                 </div>
               </Link>
             ))}
-          </div> */}
+          </div>
         </div>
       </section>
 
       {/* FAQ Section with Accordion */}
-      {/* <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold text-center mb-8">
             Frequently Asked Questions
@@ -181,7 +185,7 @@ export default async function Home() {
             ))}
           </Accordion>
         </div>
-      </section> */}
+      </section>
 
       {/* CTA Section */}
       <section className="py-16 dotted-background text-white">
