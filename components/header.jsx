@@ -11,16 +11,22 @@ const Header = async ({ isAdminPage = false }) => {
   return (
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
       <nav className="mx-auto px-4 py-4 flex items-center justify-between">
-        <Link href={isAdminPage ? "/admin" : "/"} className="flex">
-          {/* <Image
-            src={"/logo.png"}
-            alt="Vehiql Logo"
-            width={200}
-            height={60}
-            className="h-12 w-auto object-contain"
-          /> */}
+        <Link
+          href={isAdminPage ? "/admin" : "/"}
+          className="flex items-center group"
+        >
+          <div className="relative">
+            <h1 className="text-3xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-black via-gray-800 to-gray-600 transition-all duration-300 group-hover:from-gray-600 group-hover:via-gray-800 group-hover:to-black drop-shadow-sm">
+              <span className="font-mono tracking-tighter">Auto</span>
+              <span className="font-serif italic tracking-normal">Mind</span>
+            </h1>
+            <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-black via-gray-700 to-gray-500 transition-all duration-500 group-hover:w-full shadow-lg"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-gray-400/10 via-gray-500/10 to-gray-600/10 blur-xl opacity-0 transition-opacity duration-300 group-hover:opacity-20 -z-10"></div>
+          </div>
           {isAdminPage && (
-            <span className="text-xs font-extralight">admin</span>
+            <span className="ml-3 px-3 py-1 text-xs font-semibold text-white bg-gradient-to-r from-gray-800 to-black rounded-full shadow-md border border-gray-600 backdrop-blur-sm">
+              admin
+            </span>
           )}
         </Link>
 
