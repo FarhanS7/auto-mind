@@ -523,14 +523,14 @@ export default async function Home() {
               </h3>
               <p className="text-gray-600 leading-relaxed">
                 Verified listings and secure booking process for complete peace
-                of mind throughout your journey.
+                of mind throughout the journey.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Browse by Body Type with Enhanced Overlays */}
+      {/* Browse by Body Type with Enhanced  */}
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
