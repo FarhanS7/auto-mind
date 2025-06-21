@@ -1,29 +1,12 @@
 // "use client";
 
 import { getFeaturedCars } from "@/actions/home";
-import { CarCard } from "@/components/car-card";
-import CTA from "@/components/CTA";
+import BrowseSections from "@/components/BrowseSection";
+import CTA from "@/components/CTASection";
+import FAQ from "@/components/FAQSection";
+import Featured from "@/components/FeaturedSection";
 import { HomeSearch } from "@/components/home-search";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
-import { bodyTypes, carMakes, faqItems } from "@/lib/data";
-import {
-  Calendar,
-  Car,
-  ChevronRight,
-  Shield,
-  Sparkles,
-  Star,
-  Zap,
-} from "lucide-react";
-import Image from "next/image";
-
-import Link from "next/link";
+import { Sparkles, Star } from "lucide-react";
 
 export default async function Home() {
   const featuredCars = await getFeaturedCars();
@@ -126,81 +109,12 @@ export default async function Home() {
       </section>
 
       {/* Featured Cars with Enhanced Design */}
-      <section className="py-20 relative bg-gradient-to-b from-slate-50 to-white">
-        {/* Subtle Background Pattern */}
-        <div className="absolute inset-0 opacity-[0.02]">
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_24%,rgba(59,130,246,0.3)_25%,rgba(59,130,246,0.3)_26%,transparent_27%)] bg-[length:100px_100px]"></div>
-        </div>
+      <Featured />
 
-        <div className="container mx-auto px-6 relative z-10">
-          {/* Section Header */}
-          <div className="flex justify-between items-center mb-16">
-            <div className="flex items-center gap-4">
-              <div className="relative">
-                <div className="w-1.5 h-12 bg-gradient-to-b from-blue-600 via-blue-500 to-purple-600 rounded-full shadow-lg"></div>
-                <div className="absolute inset-0 w-1.5 h-12 bg-gradient-to-b from-blue-400 to-purple-400 rounded-full blur-sm opacity-60"></div>
-              </div>
-              <div>
-                <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 bg-clip-text text-transparent leading-tight">
-                  Featured Cars
-                </h2>
-                <p className="text-slate-500 mt-2 font-medium">
-                  Handpicked premium vehicles for you
-                </p>
-              </div>
-            </div>
-
-            <Button
-              variant="ghost"
-              className="group relative px-6 py-3 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300 shadow-sm hover:shadow-md"
-              asChild
-            >
-              <Link href="/cars" className="flex items-center gap-2">
-                <span className="font-semibold text-slate-700 group-hover:text-blue-700 transition-colors">
-                  View All
-                </span>
-                <div className="relative overflow-hidden">
-                  <ChevronRight className="h-5 w-5 text-slate-600 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300" />
-                </div>
-              </Link>
-            </Button>
-          </div>
-
-          {/* Cars Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-            {featuredCars.map((car, index) => (
-              <div
-                key={car.id}
-                className="group animate-fade-in-up"
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                {/* Card Wrapper with Subtle Hover Effect */}
-                <div className="relative">
-                  {/* Subtle Glow Effect on Hover */}
-                  <div className="absolute -inset-2 bg-gradient-to-r from-blue-100 via-purple-100 to-blue-100 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-
-                  {/* Main Card Container */}
-                  <div className="relative bg-white rounded-2xl border border-slate-200 shadow-sm group-hover:shadow-xl group-hover:border-blue-200 transition-all duration-300">
-                    <CarCard car={car} />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Bottom Accent */}
-          <div className="flex justify-center mt-16">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-blue-400 rounded-full opacity-60"></div>
-              <div className="w-12 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 opacity-30"></div>
-              <div className="w-2 h-2 bg-purple-400 rounded-full opacity-60"></div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <BrowseSections />
 
       {/* Browse by Make with Glassmorphism */}
-      <section className="py-16 relative">
+      {/* <section className="py-16 relative">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30"></div>
         <div className="container mx-auto px-4 relative">
           <div className="flex justify-between items-center mb-12">
@@ -251,7 +165,7 @@ export default async function Home() {
       </section>
 
       {/* Why Choose Us with Enhanced Icons */}
-      <section className="py-20 relative overflow-hidden">
+      {/* <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50/50 to-purple-50/50"></div>
         <div className="container mx-auto px-4 relative">
           <div className="text-center mb-16">
@@ -317,7 +231,7 @@ export default async function Home() {
       </section>
 
       {/* Browse by Body Type with Enhanced  */}
-      <section className="py-12 bg-gray-50">
+      {/* <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-2xl font-bold">Browse by Body Type</h2>
@@ -353,10 +267,10 @@ export default async function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section>  */}
 
       {/* FAQ Section with Enhanced Accordion */}
-      <section className="py-16 relative">
+      {/* <section className="py-16 relative">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/30 to-cyan-50/30"></div>
         <div className="container mx-auto px-4 relative">
           <div className="text-center mb-12">
@@ -385,30 +299,11 @@ export default async function Home() {
             </Accordion>
           </div>
         </div>
-      </section>
+      </section> */}
+
+      <FAQ />
 
       {/* Enhanced CTA Section */}
-      {/* <section className="py-16 dotted-background text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Ready to Find Your Dream Car?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join thousands of satisfied customers who found their perfect
-            vehicle through our platform.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="lg" variant="secondary" asChild>
-              <Link href="/cars">View All Cars</Link>
-            </Button>
-            <SignedOut>
-              <Button size="lg" asChild>
-                <Link href="/sign-up">Sign Up Now</Link>
-              </Button>
-            </SignedOut>
-          </div>
-        </div>
-      </section> */}
       <CTA />
     </div>
   );
