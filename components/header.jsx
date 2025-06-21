@@ -1,6 +1,7 @@
 import { checkUser } from "@/lib/checkUser";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { ArrowLeft, CarFront, Heart, Layout } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 
@@ -15,14 +16,21 @@ const Header = async ({ isAdminPage = false }) => {
           href={isAdminPage ? "/admin" : "/"}
           className="flex items-center group"
         >
-          <div className="relative">
+          {/* <div className="relative">
             <h1 className="text-3xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-black via-gray-800 to-gray-600 transition-all duration-300 group-hover:from-gray-600 group-hover:via-gray-800 group-hover:to-black drop-shadow-sm">
               <span className="font-mono tracking-tighter">Auto</span>
               <span className="font-serif italic tracking-normal">Mind</span>
             </h1>
             <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-black via-gray-700 to-gray-500 transition-all duration-500 group-hover:w-full shadow-lg"></div>
             <div className="absolute inset-0 bg-gradient-to-r from-gray-400/10 via-gray-500/10 to-gray-600/10 blur-xl opacity-0 transition-opacity duration-300 group-hover:opacity-20 -z-10"></div>
-          </div>
+          </div> */}
+          <Image
+            src="/logo-black.png"
+            alt="Logo"
+            width={150}
+            height={70}
+            className="mr-2"
+          />
           {isAdminPage && (
             <span className="ml-3 px-3 py-1 text-xs font-semibold text-white bg-gradient-to-r from-gray-800 to-black rounded-full shadow-md border border-gray-600 backdrop-blur-sm">
               admin

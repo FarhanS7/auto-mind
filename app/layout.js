@@ -9,6 +9,7 @@ import "./globals.css";
 export const metadata = {
   title: "AutoMind",
   description: "Find your dream car",
+  // icon: "/favicon.png",
 };
 
 export default function RootLayout({ children }) {
