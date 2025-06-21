@@ -12,7 +12,6 @@ import { toast } from "sonner";
 
 export function HomeSearch() {
   const router = useRouter();
-  const [isMounted, setIsMounted] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchImage, setSearchImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
@@ -26,10 +25,6 @@ export function HomeSearch() {
     data: processResult,
     error: processError,
   } = useFetch(processImageSearch);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   // Handle process result and errors with useEffect
   useEffect(() => {
@@ -46,8 +41,8 @@ export function HomeSearch() {
       // Redirect to search results
       router.push(`/cars?${params.toString()}`);
     }
-  }, [router]);
-  processResult;
+  }, [processResult, router]);
+
   useEffect(() => {
     if (processError) {
       toast.error(
