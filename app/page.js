@@ -2,6 +2,7 @@
 
 import { getFeaturedCars } from "@/actions/home";
 import { CarCard } from "@/components/car-card";
+import CTA from "@/components/CTA";
 import { HomeSearch } from "@/components/home-search";
 import {
   Accordion,
@@ -11,7 +12,6 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { bodyTypes, carMakes, faqItems } from "@/lib/data";
-import { SignedOut } from "@clerk/nextjs";
 import {
   Calendar,
   Car,
@@ -388,7 +388,7 @@ export default async function Home() {
       </section>
 
       {/* Enhanced CTA Section */}
-      <section className="py-16 dotted-background text-white">
+      {/* <section className="py-16 dotted-background text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">
             Ready to Find Your Dream Car?
@@ -408,7 +408,8 @@ export default async function Home() {
             </SignedOut>
           </div>
         </div>
-      </section>
+      </section> */}
+      <CTA />
     </div>
   );
 }
