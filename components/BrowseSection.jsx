@@ -17,29 +17,29 @@ import Link from "next/link";
 
 // Sample data - replace with your actual data
 const carMakes = [
-  { name: "Toyota", imageUrl: "/make/toyota.webp" },
+  // { name: "Toyota", imageUrl: "/make/toyota.webp" },
   { name: "Honda", imageUrl: "/make/honda.webp" },
   { name: "BMW", imageUrl: "/make/bmw.webp" },
-  { name: "Mercedes", imageUrl: "/make/mercedes.webp" },
-  { name: "Audi", imageUrl: "/make/audi.webp" },
-  { name: "Nissan", imageUrl: "/make/nissan.webp" },
+  // { name: "honda", imageUrl: "/make/honda.webp" },
+  // { name: "Audi", imageUrl: "/make/audi.webp" },
+  { name: "mahindra", imageUrl: "/make/mahindra.webp" },
   { name: "Ford", imageUrl: "/make/ford.webp" },
   { name: "Hyundai", imageUrl: "/make/hyundai.webp" },
-  { name: "Volkswagen", imageUrl: "/make/volkswagen.webp" },
-  { name: "Mazda", imageUrl: "/make/mazda.webp" },
-  { name: "Subaru", imageUrl: "/make/subaru.webp" },
-  { name: "Lexus", imageUrl: "/make/lexus.webp" },
+  { name: "tata", imageUrl: "/make/tata.webp" },
+  // { name: "Mazda", imageUrl: "/make/mazda.webp" },
+  // { name: "Subaru", imageUrl: "/make/subaru.webp" },
+  // { name: "Lexus", imageUrl: "/make/lexus.webp" },
 ];
 
 const bodyTypes = [
   { name: "Sedan", imageUrl: "/body/sedan.webp" },
   { name: "SUV", imageUrl: "/body/suv.webp" },
   { name: "Hatchback", imageUrl: "/body/hatchback.webp" },
-  { name: "Coupe", imageUrl: "/body/coupe.webp" },
+  // { name: "Coupe", imageUrl: "/body/coupe.webp" },
   { name: "Convertible", imageUrl: "/body/convertible.webp" },
-  { name: "Wagon", imageUrl: "/body/wagon.webp" },
-  { name: "Pickup", imageUrl: "/body/pickup.webp" },
-  { name: "Minivan", imageUrl: "/body/minivan.webp" },
+  // { name: "Wagon", imageUrl: "/body/wagon.webp" },
+  // { name: "Pickup", imageUrl: "/body/pickup.webp" },
+  // { name: "Minivan", imageUrl: "/body/minivan.webp" },
 ];
 
 export default function BrowseSections() {
@@ -126,6 +126,90 @@ export default function BrowseSections() {
                       </h3>
                       <div className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <div className="w-8 h-0.5 bg-black rounded-full mx-auto"></div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Browse by Body Type Section */}
+      <section className="relative py-24 overflow-hidden bg-white">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div className="absolute inset-0 bg-[radial-gradient(circle,_#000_1px,_transparent_1px)] bg-[length:40px_40px]"></div>
+        </div>
+
+        {/* Floating Elements */}
+        <div className="absolute top-16 left-12 w-20 h-20 bg-black/4 rounded-2xl rotate-12 animate-float blur-sm"></div>
+        <div className="absolute bottom-16 right-16 w-24 h-24 bg-black/3 rounded-full animate-float-delayed blur-sm"></div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          {/* Section Header */}
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-16 gap-6">
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <div className="w-2 h-12 bg-gradient-to-b from-black to-gray-600 rounded-full"></div>
+                <div className="absolute inset-0 w-2 h-12 bg-gradient-to-b from-black/50 to-gray-600/50 rounded-full animate-pulse"></div>
+              </div>
+              <div>
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-black leading-none tracking-tighter">
+                  <span className="block bg-gradient-to-r from-gray-900 via-black to-gray-700 bg-clip-text text-transparent">
+                    Browse by Body Type
+                  </span>
+                </h2>
+                <p className="text-gray-600 mt-2 text-lg">
+                  Find the perfect vehicle style for your needs
+                </p>
+              </div>
+            </div>
+
+            <div className="relative group">
+              <Button
+                variant="ghost"
+                className="bg-white/80 hover:bg-black hover:text-white border-2 border-black/20 hover:border-black px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
+                asChild
+              >
+                <Link href="/cars" className="flex items-center gap-3">
+                  <Car className="h-5 w-5" />
+                  View All Types
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+
+          {/* Body Types Grid */}
+          <div className="relative">
+            <div className="absolute -inset-4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-3xl blur-lg opacity-20 animate-pulse"></div>
+            <div className="relative bg-white/60 backdrop-blur-xl rounded-3xl p-8 border border-gray-200 shadow-xl">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {bodyTypes.map((type, index) => (
+                  <Link
+                    key={type.name}
+                    href={`/cars?bodyType=${type.name}`}
+                    className="group relative overflow-hidden rounded-2xl bg-white border border-black/10 hover:border-black/30 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-fade-in-up"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <div className="aspect-video relative overflow-hidden">
+                      <Image
+                        src={
+                          type.imageUrl ||
+                          `/body/${type.name.toLowerCase()}.webp`
+                        }
+                        alt={type.name}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                      <div className="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 className="text-white text-xl font-bold mb-2 transform group-hover:translate-y-[-4px] transition-transform duration-300">
+                          {type.name}
+                        </h3>
+                        <div className="w-8 h-0.5 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       </div>
                     </div>
                   </Link>
@@ -246,90 +330,6 @@ export default function BrowseSections() {
                     peace of mind throughout your car buying journey.
                   </p>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Browse by Body Type Section */}
-      <section className="relative py-24 overflow-hidden bg-white">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-[0.03]">
-          <div className="absolute inset-0 bg-[radial-gradient(circle,_#000_1px,_transparent_1px)] bg-[length:40px_40px]"></div>
-        </div>
-
-        {/* Floating Elements */}
-        <div className="absolute top-16 left-12 w-20 h-20 bg-black/4 rounded-2xl rotate-12 animate-float blur-sm"></div>
-        <div className="absolute bottom-16 right-16 w-24 h-24 bg-black/3 rounded-full animate-float-delayed blur-sm"></div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          {/* Section Header */}
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-16 gap-6">
-            <div className="flex items-center gap-4">
-              <div className="relative">
-                <div className="w-2 h-12 bg-gradient-to-b from-black to-gray-600 rounded-full"></div>
-                <div className="absolute inset-0 w-2 h-12 bg-gradient-to-b from-black/50 to-gray-600/50 rounded-full animate-pulse"></div>
-              </div>
-              <div>
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-black leading-none tracking-tighter">
-                  <span className="block bg-gradient-to-r from-gray-900 via-black to-gray-700 bg-clip-text text-transparent">
-                    Browse by Body Type
-                  </span>
-                </h2>
-                <p className="text-gray-600 mt-2 text-lg">
-                  Find the perfect vehicle style for your needs
-                </p>
-              </div>
-            </div>
-
-            <div className="relative group">
-              <Button
-                variant="ghost"
-                className="bg-white/80 hover:bg-black hover:text-white border-2 border-black/20 hover:border-black px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
-                asChild
-              >
-                <Link href="/cars" className="flex items-center gap-3">
-                  <Car className="h-5 w-5" />
-                  View All Types
-                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-
-          {/* Body Types Grid */}
-          <div className="relative">
-            <div className="absolute -inset-4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-3xl blur-lg opacity-20 animate-pulse"></div>
-            <div className="relative bg-white/60 backdrop-blur-xl rounded-3xl p-8 border border-gray-200 shadow-xl">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {bodyTypes.map((type, index) => (
-                  <Link
-                    key={type.name}
-                    href={`/cars?bodyType=${type.name}`}
-                    className="group relative overflow-hidden rounded-2xl bg-white border border-black/10 hover:border-black/30 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-fade-in-up"
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    <div className="aspect-video relative overflow-hidden">
-                      <Image
-                        src={
-                          type.imageUrl ||
-                          `/body/${type.name.toLowerCase()}.webp`
-                        }
-                        alt={type.name}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                      <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <h3 className="text-white text-xl font-bold mb-2 transform group-hover:translate-y-[-4px] transition-transform duration-300">
-                          {type.name}
-                        </h3>
-                        <div className="w-8 h-0.5 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
               </div>
             </div>
           </div>
