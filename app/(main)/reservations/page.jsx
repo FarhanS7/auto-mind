@@ -6,7 +6,7 @@ import { ReservationsList } from "./_components/reservations-list";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "My Reservations | Vehiql",
+  title: "My Reservations  ",
   description: "Manage your test drive reservations",
 };
 
