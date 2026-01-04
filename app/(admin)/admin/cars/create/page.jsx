@@ -1,5 +1,7 @@
 import { AddCarForm } from "./_components/add-car-form.jsx";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Add New Car | AutoMind  Admin",
   description: "Add a new car to the marketplace",

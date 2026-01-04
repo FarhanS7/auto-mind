@@ -1,5 +1,7 @@
 import { CarsList } from "./_components/car-list";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Cars | AutoMind Admin",
   description: "Manage cars in your marketplace",

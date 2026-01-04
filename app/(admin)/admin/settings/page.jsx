@@ -1,5 +1,7 @@
 import { SettingsForm } from "./_components/settings-form";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Settings | Vehiql Admin",
   description: "Manage dealership working hours and admin users",
