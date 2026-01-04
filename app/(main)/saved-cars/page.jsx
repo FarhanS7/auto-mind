@@ -3,6 +3,8 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { SavedCarsList } from "./_components/saved-cars-list";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Saved Cars | Vehiql",
   description: "View your saved cars and favorites",
