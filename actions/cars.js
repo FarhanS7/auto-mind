@@ -215,6 +215,8 @@ export async function addCar({ carData, images }) {
 
     // Revalidate the cars list page
     revalidatePath("/admin/cars");
+    // Invalidate car filters cache since a new car was added
+    revalidatePath("/cars");
 
     return {
       success: true,
@@ -316,6 +318,8 @@ export async function deleteCar(id) {
 
     // Revalidate the cars list page
     revalidatePath("/admin/cars");
+    // Invalidate car filters cache since a car was deleted
+    revalidatePath("/cars");
 
     return {
       success: true,
@@ -353,6 +357,9 @@ export async function updateCarStatus(id, { status, featured }) {
 
     // Revalidate the cars list page
     revalidatePath("/admin/cars");
+    // Invalidate car filters and featured cars cache
+    revalidatePath("/cars");
+    revalidatePath("/");
 
     return {
       success: true,
