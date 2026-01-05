@@ -17,6 +17,7 @@ function serializeCarData(car) {
 
 /**
  * Get featured cars for the homepage
+ * OPTIMIZED: Uses route-level caching via revalidate config
  */
 export async function getFeaturedCars(limit = 3) {
   try {
