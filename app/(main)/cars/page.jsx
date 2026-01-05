@@ -2,6 +2,9 @@ import { getCarFilters } from "@/actions/car-listing";
 import { CarFilters } from "./_components/car-filters";
 import { CarListings } from "./_components/cars-listing";
 
+// Revalidate every 5 minutes for better performance
+export const revalidate = 300;
+
 export const metadata = {
   title: "Cars | Vehiql",
   description: "Browse and search for your dream car",
