@@ -1,7 +1,8 @@
 import { getDashboardData } from "@/actions/admin";
 import { Dashboard } from "./_components/dashboard";
 
-export const dynamic = "force-dynamic";
+// Cache for 60 seconds to improve navigation speed
+export const revalidate = 60;
 
 export const metadata = {
   title: "Dashboard |  Admin",
