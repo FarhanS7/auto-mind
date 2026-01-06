@@ -12,21 +12,21 @@ import * as z from "zod";
 import { addCar, processCarImageWithAI } from "@/actions/cars";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
@@ -137,17 +137,26 @@ export const AddCarForm = () => {
     if (processImageResult?.success) {
       const carDetails = processImageResult.data;
 
-      // Update form with AI results
-      setValue("make", carDetails.make);
-      setValue("model", carDetails.model);
-      setValue("year", carDetails.year.toString());
-      setValue("color", carDetails.color);
-      setValue("bodyType", carDetails.bodyType);
-      setValue("fuelType", carDetails.fuelType);
-      setValue("price", carDetails.price);
-      setValue("mileage", carDetails.mileage);
-      setValue("transmission", carDetails.transmission);
-      setValue("description", carDetails.description);
+      // Update form with AI results, with validation
+      setValue("make", carDetails.make || "");
+      setValue("model", carDetails.model || "");
+      setValue("year", carDetails.year && !isNaN(carDetails.year) ? carDetails.year.toString() : "");
+      setValue("color", carDetails.color || "");
+      setValue("bodyType", carDetails.bodyType || "");
+      setValue("fuelType", carDetails.fuelType || "");
+      
+      // Validate and set price - only if it's a valid number
+      const priceValue = carDetails.price;
+      const parsedPrice = typeof priceValue === 'string' ? parseFloat(priceValue.replace(/[^0-9.]/g, '')) : priceValue;
+      setValue("price", parsedPrice && !isNaN(parsedPrice) ? parsedPrice.toString() : "");
+      
+      // Validate and set mileage - only if it's a valid number
+      const mileageValue = carDetails.mileage;
+      const parsedMileage = typeof mileageValue === 'string' ? parseInt(mileageValue.replace(/[^0-9]/g, '')) : mileageValue;
+      setValue("mileage", parsedMileage && !isNaN(parsedMileage) ? parsedMileage.toString() : "");
+      
+      setValue("transmission", carDetails.transmission || "");
+      setValue("description", carDetails.description || "");
 
       // Add the image to the uploaded images
       const reader = new FileReader();
@@ -159,7 +168,7 @@ export const AddCarForm = () => {
       toast.success("Successfully extracted car details", {
         description: `Detected ${carDetails.year} ${carDetails.make} ${
           carDetails.model
-        } with ${Math.round(carDetails.confidence * 100)}% confidence`,
+        } with ${Math.round(carDetails.confidence * 100)}% confidence. Please review and fill in any missing details.`,
       });
 
       // Switch to manual tab for the user to review and fill in missing details
@@ -273,17 +282,38 @@ export const AddCarForm = () => {
       return;
     }
 
+    // Validate and prepare numeric fields
+    const year = parseInt(data.year);
+    const price = parseFloat(data.price);
+    const mileage = parseInt(data.mileage);
+    const seats = data.seats ? parseInt(data.seats) : null;
+
+    // Check for invalid numbers
+    if (isNaN(year)) {
+      toast.error("Please enter a valid year");
+      return;
+    }
+    if (isNaN(price) || price <= 0) {
+      toast.error("Please enter a valid price");
+      return;
+    }
+    if (isNaN(mileage) || mileage < 0) {
+      toast.error("Please enter a valid mileage");
+      return;
+    }
+
     // Prepare data for server action
     const carData = {
       ...data,
-      year: parseInt(data.year),
-      price: parseFloat(data.price),
-      mileage: parseInt(data.mileage),
-      seats: data.seats ? parseInt(data.seats) : null,
+      year,
+      price,
+      mileage,
+      seats,
     };
 
     // Call the addCar function with our useFetch hook
     await addCarFn({
+
       carData,
       images: uploadedImages,
     });

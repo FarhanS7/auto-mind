@@ -1,6 +1,7 @@
 import { AddCarForm } from "./_components/add-car-form.jsx";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
 export const metadata = {
   title: "Add New Car | AutoMind  Admin",

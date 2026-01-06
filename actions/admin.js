@@ -13,7 +13,6 @@ export async function getAdmin() {
     where: { clerkUserId: userId },
   });
 
-  // If user not found in our db or not an admin, return not authorized
   if (!user || user.role !== "ADMIN") {
     return { authorized: false, reason: "not-admin" };
   }
@@ -21,15 +20,11 @@ export async function getAdmin() {
   return { authorized: true, user };
 }
 
-/**
- * Get all test drives for admin with filters
- */
 export async function getAdminTestDrives({ search = "", status = "" }) {
   try {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
 
-    // Verify admin status
     const user = await db.user.findUnique({
       where: { clerkUserId: userId },
     });
@@ -38,15 +33,11 @@ export async function getAdminTestDrives({ search = "", status = "" }) {
       throw new Error("Unauthorized access");
     }
 
-    // Build where conditions
     let where = {};
-
-    // Add status filter
     if (status) {
       where.status = status;
     }
 
-    // Add search filter
     if (search) {
       where.OR = [
         {
@@ -68,7 +59,6 @@ export async function getAdminTestDrives({ search = "", status = "" }) {
       ];
     }
 
-    // Get bookings
     const bookings = await db.testDriveBooking.findMany({
       where,
       include: {
@@ -86,7 +76,6 @@ export async function getAdminTestDrives({ search = "", status = "" }) {
       orderBy: [{ bookingDate: "desc" }, { startTime: "asc" }],
     });
 
-    // Format the bookings
     const formattedBookings = bookings.map((booking) => ({
       id: booking.id,
       carId: booking.carId,
@@ -115,15 +104,11 @@ export async function getAdminTestDrives({ search = "", status = "" }) {
   }
 }
 
-/**
- * Update test drive status
- */
 export async function updateTestDriveStatus(bookingId, newStatus) {
   try {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
 
-    // Verify admin status
     const user = await db.user.findUnique({
       where: { clerkUserId: userId },
     });
@@ -132,7 +117,6 @@ export async function updateTestDriveStatus(bookingId, newStatus) {
       throw new Error("Unauthorized access");
     }
 
-    // Get the booking
     const booking = await db.testDriveBooking.findUnique({
       where: { id: bookingId },
     });
@@ -141,7 +125,6 @@ export async function updateTestDriveStatus(bookingId, newStatus) {
       throw new Error("Booking not found");
     }
 
-    // Validate status
     const validStatuses = [
       "PENDING",
       "CONFIRMED",
@@ -156,13 +139,11 @@ export async function updateTestDriveStatus(bookingId, newStatus) {
       };
     }
 
-    // Update status
     await db.testDriveBooking.update({
       where: { id: bookingId },
       data: { status: newStatus },
     });
 
-    // Revalidate paths
     revalidatePath("/admin/test-drives");
     revalidatePath("/reservations");
 
@@ -171,7 +152,7 @@ export async function updateTestDriveStatus(bookingId, newStatus) {
       message: "Test drive status updated successfully",
     };
   } catch (error) {
-    throw new Error("Error updating test drive status:" + error.message);
+    throw new Error("Error updating test drive status: " + error.message);
   }
 }
 
@@ -180,7 +161,6 @@ export async function getDashboardData() {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
 
-    // Get user
     const user = await db.user.findUnique({
       where: { clerkUserId: userId },
     });
@@ -192,8 +172,6 @@ export async function getDashboardData() {
       };
     }
 
-    // Use parallel COUNT queries instead of fetching all records
-    // This is MUCH faster - only counts, doesn't transfer data
     const [
       totalCars,
       availableCars,
@@ -207,14 +185,12 @@ export async function getDashboardData() {
       cancelledTestDrives,
       noShowTestDrives,
     ] = await Promise.all([
-      // Car counts
       db.car.count(),
       db.car.count({ where: { status: "AVAILABLE" } }),
       db.car.count({ where: { status: "SOLD" } }),
       db.car.count({ where: { status: "UNAVAILABLE" } }),
       db.car.count({ where: { featured: true } }),
       
-      // Test drive counts
       db.testDriveBooking.count(),
       db.testDriveBooking.count({ where: { status: "PENDING" } }),
       db.testDriveBooking.count({ where: { status: "CONFIRMED" } }),
@@ -223,16 +199,16 @@ export async function getDashboardData() {
       db.testDriveBooking.count({ where: { status: "NO_SHOW" } }),
     ]);
 
-    // For conversion rate, we need a bit more data but still minimal
     const completedTestDriveCarIds = await db.testDriveBooking.findMany({
       where: { status: "COMPLETED" },
       select: { carId: true },
     });
 
+    const carIds = completedTestDriveCarIds.map(td => td.carId);
     const soldCarsAfterTestDrive = await db.car.count({
       where: {
         status: "SOLD",
-        id: { in: completedTestDriveCarIds.map(td => td.carId) },
+        id: { in: carIds },
       },
     });
 
