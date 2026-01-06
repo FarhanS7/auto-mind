@@ -3,19 +3,19 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import {
-  Sheet,
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
+    Sheet,
+    SheetContent,
+    SheetFooter,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
 } from "@/components/ui/sheet";
 import { Filter, Sliders, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -27,6 +27,9 @@ export const CarFilters = ({ filters }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  // If no filters provided, return null or a placeholder
+  if (!filters) return null;
+
   // Get current filter values from searchParams
   const currentMake = searchParams.get("make") || "";
   const currentBodyType = searchParams.get("bodyType") || "";
@@ -34,10 +37,10 @@ export const CarFilters = ({ filters }) => {
   const currentTransmission = searchParams.get("transmission") || "";
   const currentMinPrice = searchParams.get("minPrice")
     ? parseInt(searchParams.get("minPrice"))
-    : filters.priceRange.min;
+    : filters.priceRange?.min || 0;
   const currentMaxPrice = searchParams.get("maxPrice")
     ? parseInt(searchParams.get("maxPrice"))
-    : filters.priceRange.max;
+    : filters.priceRange?.max || 1000000;
   const currentSortBy = searchParams.get("sortBy") || "newest";
 
   // Local state for filters

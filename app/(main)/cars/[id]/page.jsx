@@ -36,9 +36,20 @@ export default async function CarDetailsPage({ params }) {
     notFound();
   }
 
+  // Provide default testDriveInfo if not available
+  const testDriveInfo = result.data.testDriveInfo || {
+    userTestDrive: null,
+    dealership: {
+      address: "69 Car Street, Autoville, CA 69420",
+      phone: "+1 (555) 123-4567",
+      email: "contact@vehiql.com",
+      workingHours: null,
+    },
+  };
+
   return (
     <div className="container mx-auto px-4 py-12">
-      <CarDetails car={result.data} testDriveInfo={result.data.testDriveInfo} />
+      <CarDetails car={result.data} testDriveInfo={testDriveInfo} />
     </div>
   );
 }
