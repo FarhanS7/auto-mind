@@ -5,23 +5,23 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
 } from "@/components/ui/dialog";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
 } from "@/components/ui/popover";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import useFetch from "@/hooks/use-fetch";
@@ -29,10 +29,10 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format, parseISO } from "date-fns";
 import {
-  Calendar as CalendarIcon,
-  Car,
-  CheckCircle2,
-  Loader2,
+    Calendar as CalendarIcon,
+    Car,
+    CheckCircle2,
+    Loader2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -121,23 +121,28 @@ export function TestDriveForm({ car, testDriveInfo }) {
 
   // Update available time slots when date changes
   useEffect(() => {
-    if (!selectedDate || !dealership?.workingHours) return;
+    if (!selectedDate) return;
 
-    const selectedDayOfWeek = format(selectedDate, "EEEE").toUpperCase();
+    let openHour = 9;
+    let closeHour = 18;
 
-    // Find working hours for the selected day
-    const daySchedule = dealership.workingHours.find(
-      (day) => day.dayOfWeek === selectedDayOfWeek
-    );
+    if (dealership?.workingHours && dealership.workingHours.length > 0) {
+      const selectedDayOfWeek = format(selectedDate, "EEEE").toUpperCase();
 
-    if (!daySchedule || !daySchedule.isOpen) {
-      setAvailableTimeSlots([]);
-      return;
+      // Find working hours for the selected day
+      const daySchedule = dealership.workingHours.find(
+        (day) => day.dayOfWeek === selectedDayOfWeek
+      );
+
+      if (!daySchedule || !daySchedule.isOpen) {
+        setAvailableTimeSlots([]);
+        return;
+      }
+
+      // Parse opening and closing hours
+      openHour = parseInt(daySchedule.openTime.split(":")[0]);
+      closeHour = parseInt(daySchedule.closeTime.split(":")[0]);
     }
-
-    // Parse opening and closing hours
-    const openHour = parseInt(daySchedule.openTime.split(":")[0]);
-    const closeHour = parseInt(daySchedule.closeTime.split(":")[0]);
 
     // Generate time slots (every hour)
     const slots = [];
@@ -168,20 +173,30 @@ export function TestDriveForm({ car, testDriveInfo }) {
 
     // Clear time slot selection when date changes
     setValue("timeSlot", "");
-  }, [selectedDate]);
+  }, [selectedDate, dealership, existingBookings, setValue]);
 
   // Create a function to determine which days should be disabled
   const isDayDisabled = (day) => {
-    // Disable past dates
-    if (day < new Date()) {
+    // Disable past dates (but allow today)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const checkDay = new Date(day);
+    checkDay.setHours(0, 0, 0, 0);
+    
+    if (checkDay < today) {
       return true;
+    }
+
+    // If no working hours available, allow all future dates
+    if (!dealership?.workingHours || dealership.workingHours.length === 0) {
+      return false;
     }
 
     // Get day of week
     const dayOfWeek = format(day, "EEEE").toUpperCase();
 
     // Find working hours for the day
-    const daySchedule = dealership?.workingHours?.find(
+    const daySchedule = dealership.workingHours.find(
       (schedule) => schedule.dayOfWeek === dayOfWeek
     );
 

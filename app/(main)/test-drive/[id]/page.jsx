@@ -19,12 +19,24 @@ export default async function TestDrivePage({ params }) {
     notFound();
   }
 
+  // Provide default testDriveInfo if not available
+  const testDriveInfo = result.data.testDriveInfo || {
+    dealership: {
+      name: "Vehiql Motors",
+      address: "69 Car Street, Autoville, CA 69420",
+      phone: "+1 (555) 123-4567",
+      email: "contact@vehiql.com",
+      workingHours: null,
+    },
+    existingBookings: [],
+  };
+
   return (
     <div className="container mx-auto px-4 py-12">
       <h1 className="text-6xl mb-6 gradient-title">Book a Test Drive</h1>
       <TestDriveForm
         car={result.data}
-        testDriveInfo={result.data.testDriveInfo}
+        testDriveInfo={testDriveInfo}
       />
     </div>
   );
