@@ -6,7 +6,7 @@ import { CarListings } from "./_components/cars-listing";
 export const revalidate = 300;
 
 export const metadata = {
-  title: "Cars | Vehiql",
+  title: "Cars | Auto Mind",
   description: "Browse and search for your dream car",
 };
 

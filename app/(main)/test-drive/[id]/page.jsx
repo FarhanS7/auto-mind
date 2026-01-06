@@ -22,10 +22,10 @@ export default async function TestDrivePage({ params }) {
   // Provide default testDriveInfo if not available
   const testDriveInfo = result.data.testDriveInfo || {
     dealership: {
-      name: "Vehiql Motors",
+      name: "Auto Mind Motors",
       address: "69 Car Street, Autoville, CA 69420",
       phone: "+1 (555) 123-4567",
-      email: "contact@vehiql.com",
+      email: "contact@automind.com",
       workingHours: null,
     },
     existingBookings: [],

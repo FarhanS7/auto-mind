@@ -3,7 +3,7 @@ import { SettingsForm } from "./_components/settings-form";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Settings | Vehiql Admin",
+  title: "Settings | Auto Mind Admin",
   description: "Manage dealership working hours and admin users",
 };
 

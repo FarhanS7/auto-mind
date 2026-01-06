@@ -6,7 +6,7 @@ import { SavedCarsList } from "./_components/saved-cars-list";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Saved Cars | Vehiql",
+  title: "Saved Cars | Auto Mind",
   description: "View your saved cars and favorites",
 };
 
