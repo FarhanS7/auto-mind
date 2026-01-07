@@ -12,16 +12,16 @@ import { useEffect, useState } from "react";
 import CarListingsLoading from "./car-listing-loading";
 
 import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
 } from "@/components/ui/pagination";
 
-export function CarListings() {
+export function CarListings({ initialData }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,10 +39,17 @@ export function CarListings() {
   const page = parseInt(searchParams.get("page") || "1");
 
   // Use the useFetch hook
-  const { loading, fn: fetchCars, data: result, error } = useFetch(getCars);
+  const {
+    loading,
+    fn: fetchCars,
+    data: result,
+    error,
+  } = useFetch(getCars, initialData);
 
-  // Fetch cars when filters change
+  // Fetch cars when filters change (skip initial fetch if we have data)
   useEffect(() => {
+    if (initialData && !result) return;
+
     fetchCars({
       search,
       make,
@@ -65,6 +72,7 @@ export function CarListings() {
     maxPrice,
     sortBy,
     page,
+    initialData,
   ]);
 
   // Update URL when page changes
