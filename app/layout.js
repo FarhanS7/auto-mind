@@ -1,3 +1,4 @@
+import { AIConcierge } from "@/components/ai-concierge";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
           <Toaster richColors />
 
           <Footer />
+          <AIConcierge />
         </body>
       </html>
     </ClerkProvider>
