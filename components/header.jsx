@@ -1,6 +1,6 @@
 import { checkUser } from "@/lib/checkUser";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
-import { ArrowLeft, CarFront, Heart, Layout } from "lucide-react";
+import { ArrowLeft, CarFront, Heart, Layout, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -62,6 +62,12 @@ const Header = async ({ isAdminPage = false }) => {
                   </Button>
                 </Link>
               )}
+              <Link href="/market-trends">
+                <Button variant="ghost">
+                  <TrendingUp size={18} className="text-blue-600" />
+                  <span className="hidden md:inline ml-2">Market Trends</span>
+                </Button>
+              </Link>
               <Link href="/saved-cars">
                 <Button className="flex items-center gap-2">
                   <Heart size={18} />
