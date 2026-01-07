@@ -5,26 +5,34 @@ import { serializeCarData } from "@/lib/helpers";
 import { db } from "@/lib/prisma";
 import { request } from "@arcjet/next";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { unstable_cache } from "next/cache";
 
-export async function getFeaturedCars() {
-  try {
-    const cars = await db.car.findMany({
-      where: {
-        featured: true,
-        status: "AVAILABLE",
-      },
-      take: 6,
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+export const getFeaturedCars = unstable_cache(
+  async () => {
+    try {
+      const cars = await db.car.findMany({
+        where: {
+          featured: true,
+          status: "AVAILABLE",
+        },
+        take: 6,
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
 
-    return cars.map(serializeCarData);
-  } catch (error) {
-    console.error("Error fetching featured cars:", error);
-    return [];
+      return cars.map(serializeCarData);
+    } catch (error) {
+      console.error("Error fetching featured cars:", error);
+      return [];
+    }
+  },
+  ["featured-cars"],
+  {
+    revalidate: 3600, // 1 hour
+    tags: ["cars"],
   }
-}
+);
 
 // Function to convert File to base64
 async function fileToBase64(file) {

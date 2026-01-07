@@ -3,49 +3,57 @@
 import { serializeCarData } from "@/lib/helpers";
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
+import { unstable_cache } from "next/cache";
 
-export async function getCarFilters() {
-  try {
-    const cars = await db.car.findMany({
-      select: {
-        make: true,
-        bodyType: true,
-        fuelType: true,
-        transmission: true,
-        price: true,
-      },
-    });
+export const getCarFilters = unstable_cache(
+  async () => {
+    try {
+      const cars = await db.car.findMany({
+        select: {
+          make: true,
+          bodyType: true,
+          fuelType: true,
+          transmission: true,
+          price: true,
+        },
+      });
 
-    const filters = {
-      makes: [...new Set(cars.map((car) => car.make))].sort(),
-      bodyTypes: [...new Set(cars.map((car) => car.bodyType))].sort(),
-      fuelTypes: [...new Set(cars.map((car) => car.fuelType))].sort(),
-      transmissions: [...new Set(cars.map((car) => car.transmission))].sort(),
-      priceRange: {
-        min: Math.min(...cars.map((car) => parseFloat(car.price))),
-        max: Math.max(...cars.map((car) => parseFloat(car.price))),
-      },
-    };
+      const filters = {
+        makes: [...new Set(cars.map((car) => car.make))].sort(),
+        bodyTypes: [...new Set(cars.map((car) => car.bodyType))].sort(),
+        fuelTypes: [...new Set(cars.map((car) => car.fuelType))].sort(),
+        transmissions: [...new Set(cars.map((car) => car.transmission))].sort(),
+        priceRange: {
+          min: Math.min(...cars.map((car) => parseFloat(car.price))),
+          max: Math.max(...cars.map((car) => parseFloat(car.price))),
+        },
+      };
 
-    return {
-      success: true,
-      data: filters,
-    };
-  } catch (error) {
-    console.error("Error fetching car filters:", error);
-    return {
-      success: false,
-      error: error.message,
-      data: {
-        makes: [],
-        bodyTypes: [],
-        fuelTypes: [],
-        transmissions: [],
-        priceRange: { min: 0, max: 0 },
-      },
-    };
+      return {
+        success: true,
+        data: filters,
+      };
+    } catch (error) {
+      console.error("Error fetching car filters:", error);
+      return {
+        success: false,
+        error: error.message,
+        data: {
+          makes: [],
+          bodyTypes: [],
+          fuelTypes: [],
+          transmissions: [],
+          priceRange: { min: 0, max: 0 },
+        },
+      };
+    }
+  },
+  ["car-filters"],
+  {
+    revalidate: 3600, // 1 hour
+    tags: ["cars", "filters"],
   }
-}
+);
 
 export async function getCars(filters = {}) {
   try {
